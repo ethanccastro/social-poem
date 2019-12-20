@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Blog Post - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/blog-post.css" rel="stylesheet">
+  
+   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="list-group list-group-flush">
+        <a href="/" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="/submit" class="list-group-item list-group-item-action bg-light">Add entry</a>
+        <a href="/logout" class="list-group-item list-group-item-action bg-light">Logout</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+
+        <!-- Author -->
+        <p class="lead">
+          by
+          <a href="#">Start Bootstrap</a>
+        </p>
+
+        <hr>
+        <form method="POST">
+           <div class="card my-4">
+            <h5 class="card-header">Title</h5>
+            <div class="card-body">
+                <div class="form-group">
+                  <textarea class="form-control" rows="2" id="title" name="title"></textarea>
+                </div>
+            </div>
+          </div>
+          <hr>
+  
+          <div class="card my-4">
+            <h5 class="card-header">Text</h5>
+            <div class="card-body">
+                <div class="form-group">
+                  <textarea class="form-control" rows="15" name="contentText" id="contentText"></textarea>
+                </div>
+            </div>
+          </div>
+          <hr>
+          
+          <div class="card my-4">
+            <h5 class="card-header">Category</h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <select name="category" id="category">
+                      <option value="none" name="none">&lt;Select one&gt;</option>
+                      <option value="Love" name="love">Love</option>
+                      <option value="Motivation" name="motivation">Motivation</option>
+                      <option value="Inspiration" name="inspiration">Inspiration</option>
+                      <option value="Life" name="life">Life</option>
+                      <option value="Comedy" name="comedy">Comedy</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" id="submitButton" class="btn btn-primary btn-block">Submit</button>
+        </div>
+        </form>
+
+
+      </div>
+</div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+</body>
+<script>
+   $("#submitButton").on('click',function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: "/submit",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+          "title": $("#title").val(),
+          "contentText" :$("#contentText").val(),
+          "category" : $("#category").val(),
+          "date" : Date(Date.now())
+        }),
+        success: function(result,status) {
+        	if (status) {
+             console.log("result:", status);
+        	}
+         } //success
+      }); //ajax
+  });
+</script>
+
+</html>

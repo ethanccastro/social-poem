@@ -1,0 +1,72 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Login Form -->
+    <form>
+      <div class="form-group">
+        <input type="text" id="username" class="fadeIn second" name="username" placeholder="login">
+      </div>
+      <div class="form-group">
+        <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
+      </div>
+      <div class="form-group">
+            <button type="submit" id="loginButton" class="btn btn-primary btn-block">Login</button>
+        </div>
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+	/* global $ */
+
+	$(document).ready(function() {
+  	let username = $("#username").val();
+  	let password = $("#password").val();
+          $('#loginButton').on('click', function(e) {
+          	e.preventDefault();
+              $.ajax({
+                  type: "POST",
+                  url: "/login",
+                  dataType: "json",
+                  contentType: "application/json",
+                  data: JSON.stringify({
+                      "username": $("#username").val(),
+                      "password": $("#password").val(),
+                  }),
+                  success: function(result, status) {
+                      console.log("got login status back", result);
+                      if (result.successful) {
+                          window.location.href = '/';
+                          console.log("username:", username);
+                      }
+                      else {
+                          $('#message').html(result.message);
+                          $('#message').show();
+                          console.log("username:", username);
+                          console.log("password:", password);
+                      }
+                  },
+                  error: function(xhr, status, error) {
+                      err = eval("error: (" + xhr.responseText + ")");
+                      console.error(err);
+                  },
+                  complete: function(data, status) { //optional, used for debugging purposes
+                      console.log(status);
+                  }
+              });
+  	
+  	});
+});
+</script>

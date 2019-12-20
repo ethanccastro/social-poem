@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Register Form -->
+    <form>
+      <div class="form-group">
+        <input type="text" id="username" class="fadeIn second" name="username" placeholder="username">
+      </div>
+      <div class="form-group">
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
+      </div>
+      <div class="form-group">
+        <button type="submit" id="registerButton" class="btn btn-primary btn-block">Register</button>
+      </div>    
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Already have an account? Login</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+	/* global $ */
+		let username = $("#username").val();
+		console.log(username);
+	  $(document).ready(function() {
+        $('#registerButton').on('click', function(e) {
+        	e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/register",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "username": $("#username").val(),
+                    "password": $("#password").val()
+                }),
+                success: function(result, status) {
+                    console.log("got login status back", result);
+                    if (result.successful) {
+                        // window.location.href = '/scheduler/dashboard';
+                    }
+                    else {
+                        $('#message').html(result.message);
+                        $('#message').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    err = eval("error: (" + xhr.responseText + ")");
+                    console.error(err);
+                },
+                complete: function(data, status) { //optional, used for debugging purposes
+                    console.log(status);
+                }
+            });
+	
+	});
+});
+</script>
